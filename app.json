@@ -4,7 +4,7 @@
     "slug": "smartfridge",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/ico.png",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/icon.png",
@@ -23,7 +23,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/logo_chefsmate.png",
+        "foregroundImage": "./assets/icon.png",
         "backgroundColor": "black"
       },
       "permissions": [

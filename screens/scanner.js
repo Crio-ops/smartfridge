@@ -59,20 +59,23 @@ export default function Scanner() {
 
     try {
       fetch("http://192.168.1.56:3000/api/product/scanner", {
-        method: "POST",
+        method: "GET",
         headers: {
           Authorization: token,
-          Accept: "application/json",
-          "Content-Type": "application/json",
+          // Accept: "application/json",
+          // "Content-Type": "application/json",
         },
-        body: jsonRequest,
       })
         .then((response) => response.json())
         .then((json) => {
-          setProductBrand(json.productFromApi.product.brands);
-          setProductName(json.productFromApi.product.product_name);
-          setProductQuantity(json.productFromApi.product.quantity);
-          setProductImage(json.productFromApi.product.image_front_small_url);
+
+          console.log(json)
+
+
+          // setProductBrand(json.productFromApi.product.brands);
+          // setProductName(json.productFromApi.product.product_name);
+          // setProductQuantity(json.productFromApi.product.quantity);
+          // setProductImage(json.productFromApi.product.image_front_small_url);
         });
     } catch (error) {
       console.error(error);
