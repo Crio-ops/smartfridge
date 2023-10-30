@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
-import Images from '../assets/fridgeImages.js';
+// import Images from '../assets/fridgeImages.js';
 
 
  const Fridge = ({ label, children, items }) => (

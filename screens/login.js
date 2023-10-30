@@ -40,7 +40,7 @@ export default function Login({ navigation }) {
       })
         .then((response) => response.json())
         .then((json) => {
-          const jwtToken = json.token
+          const jwtToken = json.request.token
          login(jwtToken);
         });
     } catch (error) {
@@ -55,7 +55,7 @@ export default function Login({ navigation }) {
           width: 150,
           height: 150,
         }}
-        source={require("../assets/chefsmate.png")}
+        source={require("../assets/icon.png")}
       />
       <Text style={styles.title}>S'identifier</Text>
       {/* <Text style={styles.title}>{i18n.t('welcome')}</Text> */}

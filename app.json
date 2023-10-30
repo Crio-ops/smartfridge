@@ -4,10 +4,10 @@
     "slug": "smartfridge",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/logo_chefsmate.png",
+    "icon": "./assets/ico.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/logo_chefsmate.png",
+      "image": "./assets/icon.png",
       "resizeMode": "contain",
       "backgroundColor": "black"
     },
@@ -15,13 +15,22 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "Allow $(PRODUCT_NAME) to access camera.",
+        "NSMicrophoneUsageDescription": "Allow $(PRODUCT_NAME) to access your microphone"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/logo_chefsmate.png",
         "backgroundColor": "black"
-      }
+      },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.crio.smartfridge"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -40,6 +49,11 @@
         }
       ],
       "expo-localization"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "5dc9d557-c1c1-41ca-b172-d7c4dc0e1ca3"
+      }
+    }
   }
 }
