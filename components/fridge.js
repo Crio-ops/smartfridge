@@ -1,16 +1,13 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
-// import Images from '../assets/fridgeImages.js';
 
 
  const Fridge = ({ label, children, items }) => (
   <View style={{ padding: 10, flex: 1 }}>
     <Text style={styles.label}>{label}</Text>
     <View style={styles.cardBox}>
-      {Object.values(items).map((item) => (
-        Object.values(item).map((it) => (
-          it['name'] ? 'boissons' : sourceImage = Images.boissons,      
-        <TouchableOpacity  style={styles.card}>   
+      {Object.values(items).map((item, i) => (
+        <TouchableOpacity key={i} style={styles.card}>   
         
           {/* <Image
           id={it['id']}
@@ -20,9 +17,9 @@ import React, { useState } from "react";
           }}        
             source ={sourceImage}
           /> */}
-          <Text key={it['id']} style={{textAlign : 'center'}}>{it['id']}. {it['name']}</Text>
+          <Text style={{textAlign : 'center'}}>{i}. {item['name']}</Text>
         </TouchableOpacity>
-      ))))}
+      ))}
     </View>
   </View>
 );

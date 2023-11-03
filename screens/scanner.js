@@ -1,6 +1,6 @@
 import { Camera, CameraType } from "expo-camera";
 import AuthProvider, { useAuth } from "../components/context/UserAuth.js";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useMemo, React, useRef } from "react";
 import {
   Button,
   StyleSheet,
@@ -11,7 +11,7 @@ import {
 } from "react-native";
 
 export default function Scanner() {
-  const { user, token, setToken } = useAuth();
+  const { user, token, logout, setToken } = useAuth();
   const [scanned, setScanned] = useState(true);
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
@@ -19,10 +19,11 @@ export default function Scanner() {
   const [productName, setProductName] = useState();
   const [productQuantity, setProductQuantity] = useState();
   const [productImage, setProductImage] = useState();
+
   if (!permission) {
     return <View />;
   }
-// grant permisson to use the camera
+  // grant permisson to use the camera
   if (!permission.granted) {
     return (
       <View style={styles.container}>
@@ -49,33 +50,30 @@ export default function Scanner() {
       scannedNum: barCodeScanned,
     };
 
-    let scannedProduct = {
-      request: { type: 3, name: "scannedProductNum", data: [] },
-    };
-
-    scannedProduct.request.data.push(product);
-    let jsonRequest = JSON.stringify(scannedProduct);
-    console.log(jsonRequest);
+    let jsonRequest = JSON.stringify(product);
+    console.log(product);
 
     try {
       fetch("http://192.168.1.56:3000/api/product/scanner", {
-        method: "GET",
+        method: "POST",
         headers: {
           Authorization: token,
-          // Accept: "application/json",
-          // "Content-Type": "application/json",
+          Accept: "application/json",
+          "Content-Type": "application/json",
         },
+        body: jsonRequest,
       })
         .then((response) => response.json())
         .then((json) => {
-
-          console.log(json)
-
-
-          // setProductBrand(json.productFromApi.product.brands);
-          // setProductName(json.productFromApi.product.product_name);
-          // setProductQuantity(json.productFromApi.product.quantity);
-          // setProductImage(json.productFromApi.product.image_front_small_url);
+          console.log(json);
+          if (json.status === 1) {
+            setProductBrand(json.item[0].product.brands);
+            setProductName(json.item[0].product.product_name);
+            setProductQuantity(json.item[0].product.quantity);
+            setProductImage(json.item[0].product.image_front_small_url);
+          } else {
+            logout();
+          }
         });
     } catch (error) {
       console.error(error);
@@ -106,14 +104,14 @@ export default function Scanner() {
         </TouchableOpacity>
         {/* )} */}
       </View>
-      <View style={styles.bottomContainer}>
-        <View style={styles.productInfo}>
-          <Image style={styles.tinyLogo} source={{ uri: productImage }} />
-          <Text style={styles.text}>Marque : {productBrand}</Text>
-          <Text style={styles.text}>type : {productName}</Text>
-          <Text style={styles.text}>quantité : {productQuantity}</Text>
+        <View style={styles.bottomContainer}>
+          <View style={styles.productInfo}>
+            <Image style={styles.tinyLogo} source={{ uri: productImage }} />
+            <Text style={styles.text}>Marque : {productBrand}</Text>
+            <Text style={styles.text}>type : {productName}</Text>
+            <Text style={styles.text}>quantité : {productQuantity}</Text>
+          </View>
         </View>
-      </View>
     </View>
   );
 }

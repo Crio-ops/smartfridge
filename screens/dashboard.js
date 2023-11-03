@@ -1,15 +1,13 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
-import Fridge from '../components/fridge.js'
+import Fridge from "../components/fridge.js";
 export default function Dashboard({ navigation }) {
-
-  let fridgeFoodObj = { food : [
-    {name : "jambon", id : 1, image : "Images.jambom"},
-    {name : "orange", id : 2, image : "Images.fromage"},
-    {name : "boisson", id : 3, image : "Images.boissons"},
-    {name : "legumes", id : 4, image : "Images.nourriture-saine"},
-    
-]}
+  const fridgeFoodObj = [
+    { id: 0, name: 'jambon'},
+    { id: 1, name: 'orange'},
+    { name: "boisson", id: 2},
+    { name: "legumes", id: 3},
+  ];
 
   return (
     <View style={styles.container}>
@@ -24,14 +22,10 @@ export default function Dashboard({ navigation }) {
           backgroundColor: "#D9D9D9",
         }}
       >
-        <Text style={{textAlign : 'center'}}>GO TO THE SCAN !</Text>
+        <Text style={{ textAlign: "center" }}>GO TO THE SCAN !</Text>
       </TouchableOpacity>
-{/* composant frigo importé */}
-      <Fridge 
-        label="Frigo de Kevin"
-        items= {fridgeFoodObj}
-      >
-      </Fridge>
+      {/* composant frigo importé */}
+      <Fridge label='frigo' items={fridgeFoodObj}/>
     </View>
   );
 }
