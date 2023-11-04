@@ -1,6 +1,6 @@
 import { View, Text, TextInput, StyleSheet, Image } from "react-native";
 import CustomButton from "../components/custom_elements/customButton.js";
-import AuthProvider ,{ useAuth } from "../components/context/UserAuth.js";
+import AuthProvider, { useAuth } from "../components/context/UserAuth.js";
 
 import React, { useState } from "react";
 
@@ -17,7 +17,9 @@ import React, { useState } from "react";
 export default function Login({ navigation }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const {user, token ,setToken, login, logout} = useAuth();
+  const [loginError, setLoginError] = useState(false);
+  const [serverError, setServerError] = useState(false);
+  const { user, token, setToken, login, logout } = useAuth();
 
   function getLogin(username, password) {
     let person = {
@@ -25,7 +27,7 @@ export default function Login({ navigation }) {
       password: password,
     };
     //créer un objet requete pour l'envoie vers l'Api, attribut type permet de dispatch lors de l'arrivée à l'Api, data [] contient les données du user
-  
+
     let jsonRequest = JSON.stringify(person);
 
     console.log(jsonRequest);
@@ -38,10 +40,22 @@ export default function Login({ navigation }) {
         },
         body: jsonRequest,
       })
-        .then((response) => response.json())
+        .then((response) => {
+          if (response.status === 200) {
+            return response.json();
+          }else if(response.status === 500){
+            setServerError(true);
+            setLoginError(false);
+            throw new Error("internal error" + response.status);
+          } else {
+            setLoginError(true);
+            setServerError(false);
+            throw new Error("login error" + response.status);
+          }
+        })
         .then((json) => {
-          const jwtToken = json.request.token
-         login(jwtToken);
+          const jwtToken = json.request.token;
+          login(jwtToken);
         });
     } catch (error) {
       console.error(error);
@@ -75,13 +89,22 @@ export default function Login({ navigation }) {
         onChangeText={(newPassword) => setPassword(newPassword)}
         secureTextEntry={true}
       />
-
+      {loginError && (
+        <Text style={styles.warning}>
+          Erreur dans le nom de compte ou le mot de passe.
+        </Text>
+      )}
+      {serverError && (
+        <Text style={styles.warning}>
+          Erreur interne, veuillez réessayer plus tard.
+        </Text>
+      )}
       <CustomButton
         title={"Se connecter"}
         style={styles.buttonStyle}
         onPress={() => getLogin(username, password)}
       ></CustomButton>
-      
+
       <CustomButton
         title={"Créer un compte"}
         style={styles.buttonStyle}
@@ -107,14 +130,13 @@ const styles = StyleSheet.create({
     fontSize: 36,
     color: "#fff",
     textAlign: "center",
-    marginTop : 10,
+    marginTop: 10,
   },
   label: {
     fontSize: 18,
     color: "#fff",
     marginTop: 20,
     marginBottom: 5,
-    
   },
   buttonStyle: {
     fontSize: 18,
@@ -127,10 +149,22 @@ const styles = StyleSheet.create({
     fontSize: 16,
     borderRadius: 4,
     height: 45,
-    width: 200,
+    width: 230,
     paddingVertical: 6,
     paddingHorizontal: 18,
     backgroundColor: "#D9D9D9",
-    elevation : 10
+    elevation: 10,
+    textAlign: "center",
+  },
+  warning: {
+    fontSize: 15,
+    borderRadius: 4,
+    width: 230,
+    paddingVertical: 6,
+    paddingHorizontal: 18,
+    marginVertical: 5,
+    backgroundColor: "orange",
+    elevation: 10,
+    textAlign: "center",
   },
 });

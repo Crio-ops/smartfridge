@@ -8,7 +8,10 @@ import {
   TouchableOpacity,
   View,
   Image,
+  Dimensions,
 } from "react-native";
+import Carousel from 'react-native-reanimated-carousel';
+
 
 export default function Scanner() {
   const { user, token, logout, setToken } = useAuth();
@@ -19,7 +22,7 @@ export default function Scanner() {
   const [productName, setProductName] = useState();
   const [productQuantity, setProductQuantity] = useState();
   const [productImage, setProductImage] = useState();
-
+  const width = Dimensions.get('window').width;
   if (!permission) {
     return <View />;
   }
@@ -103,14 +106,29 @@ export default function Scanner() {
           <Text style={styles.text}>Scanne ton produit</Text>
         </TouchableOpacity>
         {/* )} */}
+
+    
+
       </View>
         <View style={styles.bottomContainer}>
-          <View style={styles.productInfo}>
-            <Image style={styles.tinyLogo} source={{ uri: productImage }} />
-            <Text style={styles.text}>Marque : {productBrand}</Text>
-            <Text style={styles.text}>type : {productName}</Text>
-            <Text style={styles.text}>quantité : {productQuantity}</Text>
-          </View>
+        <Carousel
+                loop
+                width={width}
+                // height={width / 2}
+                autoPlay={false}
+                data={[...new Array(6).keys()]}
+                scrollAnimationDuration={1000}
+                onSnapToItem={(index) => console.log('current index:', index)}
+                renderItem={({ index }) => (
+                  <View style={styles.productInfo}>
+                  <Image style={styles.tinyLogo} source={{ uri: productImage }} />
+                  <Text style={styles.text}>Marque : {productBrand}</Text>
+                  <Text style={styles.text}>type : {productName}</Text>
+                  <Text style={styles.text}>quantité : {productQuantity}</Text>
+                </View>
+                )}
+            />
+         
         </View>
     </View>
   );

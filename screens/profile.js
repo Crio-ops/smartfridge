@@ -27,9 +27,8 @@ const styles = StyleSheet.create({
   },
   buttonStyle: {
     fontSize: 18,
-    borderColor: "white",
     borderRadius: 4,
-    paddingVertical: 10,
-    paddingHorizontal: 18,
+    paddingVertical: 15,
+    textAlign: "center",
   },
 });
