@@ -4,10 +4,10 @@
     "slug": "smartfridge",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo_chefsmate.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/icon.png",
+      "image": "./assets/logo_chefsmate.png",
       "resizeMode": "contain",
       "backgroundColor": "#000000"
     },
@@ -23,7 +23,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/icon.png",
+        "foregroundImage": "./assets/logo_chefsmate.png",
         "backgroundColor": "#000000"
       },
       "permissions": [
@@ -33,7 +33,7 @@
       "package": "com.crio.smartfridge"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/logo_chefsmate.png"
     },
     "plugins": [
       [
