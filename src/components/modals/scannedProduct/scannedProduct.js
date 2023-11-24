@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, Image, Text, TextInput, StyleSheet } from "react-native";
 import CheckBox from '@react-native-community/checkbox';
-import Colors from "../styles/colors/colors.js";
-const ProductInfoComponent = ({
+import Colors from "../../../styles/colors/colors.js";
+import useScannedProductController from "./scannedProductController.js";
+import RegularButtonComponent from "../../../components/elements/button/regularButtonComponent.js";
+
+const ScannedProduct = ({
   productBrand,
   productImage,
   productName,
   productCategories,
   productQuantity,
 }) => {
-  const [isSlicedProduct, setIsSlicedProduct] = useState(false);
+  const { isSlicedProduct, setIsSlicedProduct } = useScannedProductController();
   return (
     <View>
       <View style={styles.productInfo}>
@@ -19,29 +22,25 @@ const ProductInfoComponent = ({
             source={
               productImage
                 ? { uri: productImage }
-                : require("../../assets/notFound.png")
+                : require("../../../../assets/notFound.png")
             }
           />
         </View>
         <View style={styles.textContainer}>
-          <TextInput style={styles.textInput}>{productName}</TextInput>
-          <Text style={styles.text}>Marque:</Text>
-          <TextInput style={styles.textInput}>{productBrand}</TextInput>
-          <Text style={styles.text}>Quantité:</Text>
-          <TextInput style={styles.textInput}>{productQuantity}</TextInput>
-          <Text style={styles.text}>produit en tranche ?</Text><CheckBox
-          value={isSlicedProduct}
-          onValueChange={setIsSlicedProduct}
-          />
+          <Text style={styles.text}>{productName}</Text>
+          {/* <Text style={styles.text}>Marque:</Text> */}
+          <Text style={styles.text}>{productBrand}</Text>
+          {/* <Text style={styles.text}>Quantité:</Text> */}
+          <Text style={[styles.text,{fontStyle:"italic" }]}>{productQuantity}</Text>
+          <Text style={styles.text}>Produit incomplet ?</Text>
+          <RegularButtonComponent style={styles.text} title='Produit incomplet ?'/>
+          
+
         </View>
-      </View>
-      <View style={styles.categoryContainer}>
-        <Text style={styles.text}>{productCategories}</Text>
       </View>
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   productInfo: {
     marginTop: 10,
@@ -59,9 +58,6 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 5,
-  },
-  categoryContainer: {
-    margin: 10,
   },
   text: {
     fontSize: 18,
@@ -83,4 +79,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProductInfoComponent;
+export default ScannedProduct;

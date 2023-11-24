@@ -1,19 +1,67 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
+import AuthProvider, { useAuth } from "../../components/context/UserAuth.js";
 import { Menu, MenuItem, MenuDivider } from "react-native-material-menu";
-import GradientBackground from "../styles/components/GradientBackground";
-import Colors from "../styles/colors/colors.js";
-import PlusButton from "../components/elements/button/plusButton.js";
+import GradientBackground from "../../styles/components/GradientBackground.js";
+import Colors from "../../styles/colors/colors.js";
+import PlusButton from "../../components/elements/button/plusButton.js";
 export default function Dashboard({ navigation }) {
   const [visible, setVisible] = useState(false);
+  const { user, getToken , setUser, token, setToken, login, logout } = useAuth();
   const hideMenu = () => setVisible(false);
   const showMenu = () => setVisible(true);
+  const [noKitchenYet, setNoKitchenYet] = useState(false);
+  const [kitchenName, setKitchenName] = useState();
+
+  const fetchKitchenData = async (user) => {
+
+    const jsonRequest = JSON.stringify({ user_id: user.id });
+
+    const LOCAL_URL = "http://192.168.1.56:3000/api/product/fetch_user_kitchen_data";
+
+    try {
+      const response = await fetch(LOCAL_URL, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: jsonRequest,
+      });
+
+      if (response.status === 200) {
+        const json = await response.json();
+
+        if (json.request.kitchen.kitchen_name === "") {
+          console.log(json);
+          setNoKitchenYet(true);
+          console.log(kitchenState);
+        } else {
+          console.log(json);
+          setKitchenName(json.request.kitchen.kitchen_name);
+          setNoKitchenYet(false);
+        }
+      } else {
+        // Handle other response statuses here if needed
+        console.error('Unexpected response status:', response.status);
+      }
+    } catch (error) {
+      console.error('Error during fetch:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchKitchenData(user);
+  }, [user]); 
 
   return (
     <View style={styles.container}>
       <GradientBackground />
-      <View style={styles.topContainer}></View>
+      <View style={styles.topContainer}>
+
+      <Text>user : {user.mail_address}</Text>
+    {!noKitchenYet && <Text>{kitchenName}</Text>}
+      </View>
       <View style={styles.bottomContainer}>
         <Menu
           style={styles.menuContainer}

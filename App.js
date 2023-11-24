@@ -10,11 +10,12 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 //
 import AuthProvider, { useAuth } from "./src/components/context/UserAuth.js";
-import Scanner from "./src/screens/Scanner.js";
-import Dashboard from "./src/screens/Dashboard.js";
+import Scanner from "./src/screens/scanner/Scanner.js";
+import Dashboard from "./src/screens/home/Dashboard.js";
 import CreateAccount from "./src/screens/auth/CreateAccount.js";
-import Recipes from "./src/screens/Recipes.js";
-import Fridge from "./src/screens/Fridge.js";
+import Recipes from "./src/screens/recipes/Recipes.js";
+import CreateRecipes from "./src/screens/recipes/CreateRecipes.js";
+import Kitchen from "./src/screens/kitchen/Kitchen.js";
 import Login from "./src/screens/auth/Login.js";
 import Profile from "./src/screens/profile/Profile.js";
 import Settings from "./src/screens/profile/Settings.js";
@@ -132,8 +133,8 @@ function TabScreens() {
       }}
     >
       <Tab.Screen
-        name="Frigo"
-        component={Fridge}
+        name="Ma cuisine"
+        component={Kitchen}
         options={{
           tabBarItemStyle: {
             borderTopLeftRadius: 45,
@@ -213,6 +214,20 @@ const Navigator = () => {
           <Stack.Screen
             name="Scanner"
             component={Scanner}
+            options={{
+              headerShown: true,
+              headerStyle: {
+                backgroundColor: Colors.background,
+              },
+              headerTitleStyle: {
+                color: Colors.primary, // Couleur du titre de l'écran
+              },
+              headerTintColor: Colors.primary, // Couleur de l'icône de retour
+            }}
+          />
+            <Stack.Screen
+            name="CreateRecipes"
+            component={CreateRecipes}
             options={{
               headerShown: true,
               headerStyle: {

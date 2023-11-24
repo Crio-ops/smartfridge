@@ -20,7 +20,7 @@ export default function Login({ navigation }) {
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState(false);
   const [serverError, setServerError] = useState(false);
-  const { user, token, setToken, login, logout } = useAuth();
+  const { user, setUser, token, setToken, login, logout } = useAuth();
 
   function getLogin(username, password) {
     let person = {
@@ -33,7 +33,7 @@ export default function Login({ navigation }) {
     const LOCAL_URL = "http://192.168.1.56:3000/api/users/login";
     const RASPI_URL = "http://80.200.149.43:3000/api/users/login";
     try {
-      fetch(RASPI_URL, {
+      fetch(LOCAL_URL, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -55,6 +55,8 @@ export default function Login({ navigation }) {
           }
         })
         .then((json) => {
+          console.log(json.request.user)
+          setUser(json.request.user)
           const jwtToken = json.request.token;
           login(jwtToken);
         });

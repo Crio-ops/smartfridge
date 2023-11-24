@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
-import GradientBackground from "../styles/components/GradientBackground.js";
-import FridgeComponents from "../components/FridgeComponents.js";
-import Colors from "../styles/colors/colors.js"
-export default function Fridge({ navigation }) {
+import GradientBackground from "../../styles/components/GradientBackground.js";
+import FridgeComponents from "../../components/FridgeComponents.js";
+import Colors from "../../styles/colors/colors.js"
+export default function Kitchen({ navigation }) {
   const fridgeFoodObj = [
     { id: 0, name: "jambon" },
     { id: 1, name: "orange" },
