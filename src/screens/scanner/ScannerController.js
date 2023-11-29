@@ -94,7 +94,6 @@ const useScannerController = () => {
     let jsonRequest = JSON.stringify(product);
     console.log(product);
     const LOCAL_URL = "http://192.168.1.56:3000/api/product/store_product";
-    // const RASPI_URL = "http://80.200.149.43:3000/api/product/scanner";
 
     try {
       const response = await fetch(LOCAL_URL, {

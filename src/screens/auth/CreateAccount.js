@@ -44,7 +44,6 @@ export default function CreateAccount() {
 
       let jsonRequest = JSON.stringify(person);
       const LOCAL_URL = "http://192.168.1.56:3000/api/users/create";
-      const RASPI_URL = "http://80.200.149.43:3000/api/users/create";
       console.log(jsonRequest);
       try {
         fetch(LOCAL_URL, {

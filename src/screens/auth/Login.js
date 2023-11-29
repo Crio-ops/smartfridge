@@ -33,7 +33,6 @@ export default function Login({ navigation }) {
 
     let jsonRequest = JSON.stringify(person);
     const LOCAL_URL = "http://192.168.1.56:3000/api/users/login";
-    const RASPI_URL = "http://80.200.149.43:3000/api/users/login";
     try {
       fetch(LOCAL_URL, {
         method: "POST",
