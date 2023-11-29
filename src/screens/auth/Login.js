@@ -30,7 +30,6 @@ export default function Login({ navigation }) {
       username: username,
       password: password,
     };
-    //créer un objet requete pour l'envoie vers l'Api, attribut type permet de dispatch lors de l'arrivée à l'Api, data [] contient les données du user
 
     let jsonRequest = JSON.stringify(person);
     const LOCAL_URL = "http://192.168.1.56:3000/api/users/login";
@@ -79,7 +78,6 @@ export default function Login({ navigation }) {
         source={require("../../../assets/hat.png")}
       />
       <Text style={styles.title}>S'identifier</Text>
-      {/* <Text style={styles.title}>{i18n.t('welcome')}</Text> */}
       <Text style={styles.label}>Nom de compte</Text>
       <TextInput
         style={styles.input}
