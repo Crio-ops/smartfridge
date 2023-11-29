@@ -4,8 +4,8 @@ export const fruitsAndVegetables = [
 ]
 export const drinks = [
     'Eau',
-    'Boissons sucrée',
-    'Boissons alcoolisée'
+    'Boissons sucrées',
+    'Boissons alcoolisées'
 ]
 export const meatAndFish = [
     'viande',

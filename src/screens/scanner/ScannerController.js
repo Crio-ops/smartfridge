@@ -1,18 +1,14 @@
 import { Camera, CameraType } from "expo-camera";
-import { useState } from "react";
-import AuthProvider, { useAuth } from "../../components/context/UserAuth.js";
+import { useState, useEffect } from "react";
+import { useAuth } from "../../components/context/UserAuth.js";
+import Aliment from "../../models/aliment.js";
 
 const useScannerController = () => {
-  const { user, token, logout, setToken } = useAuth();
+  const { kitchen, token, logout } = useAuth();
   const [scanned, setScanned] = useState(true);
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const [product, setProduct] = useState();
-  const [productBrand, setProductBrand] = useState();
-  const [productName, setProductName] = useState();
-  const [productQuantity, setProductQuantity] = useState();
-  const [productImage, setProductImage] = useState();
-  const [productCategories, setProductCategories] = useState();
   const [isProductExist, setIsProductExist] = useState(false);
   const [selectedItem, setSelectedItem] = useState();
   const [isModalVisible, setModalVisible] = useState(false);
@@ -31,15 +27,19 @@ const useScannerController = () => {
     };
   }
 
-  const checkProduct = (json) => {
+  const buildProduct = (json) => {
+    const { brand, name, quantityAndUnit, image, keywords } = json.item[0];
+    const alimentFromData = new Aliment(brand, name, quantityAndUnit,image, keywords, unit="", quantity="");
+    alimentFromData.extractUnitFromQuantity();
+    alimentFromData.afficherInfos();
+    setProduct(alimentFromData);
     setIsProductExist(true);
-    setProductBrand(json.item[0].brands);
-    setProductName(json.item[0].name);
-    setProductQuantity(json.item[0].quantity);
-    setProductCategories(json.item[0].categories);
-    setProductImage(json.item[0].image);
-    setModalVisible(true);
+    displayProductModal()
   };
+  
+  const displayProductModal= () => {
+    setModalVisible(true);   
+  }
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
@@ -71,7 +71,7 @@ const useScannerController = () => {
 
       console.log(json);
       if (json.status === 1) {
-        checkProduct(json);
+        buildProduct(json);
       } else {
         logout();
       }
@@ -80,17 +80,20 @@ const useScannerController = () => {
     }
   };
 
-  const saveProductInKitchen = async () => {
+  const saveProductInKitchen = async (data) => {
+    console.log('le produit : ', data) 
     let product = {
-        productBrand:productBrand,
-        productName : productName,
-        productImage: productImage,
-        productQuantity: productQuantity,
-        productCategories:productCategories
-      };
-    // let jsonRequest = JSON.stringify(json);
+      kitchen_id: kitchen.id,
+      brand: data.brand,
+      name: data.name,
+      image_link: data.image,
+      // quantity: productQuantity,
+      // productCategories:productCategories,
+      keywords: data.keywords,
+    };
+    let jsonRequest = JSON.stringify(product);
     console.log(product);
-    const LOCAL_URL = "http://192.168.1.56:3000/api/product/saveProductInKitchen";
+    const LOCAL_URL = "http://192.168.1.56:3000/api/product/store_product";
     // const RASPI_URL = "http://80.200.149.43:3000/api/product/scanner";
 
     try {
@@ -126,16 +129,16 @@ const useScannerController = () => {
     requestPermission,
     product,
     setProduct,
-    productBrand,
-    setProductBrand,
-    productName,
-    setProductName,
-    productQuantity,
-    setProductQuantity,
-    productImage,
-    setProductImage,
-    productCategories,
-    setProductCategories,
+    // productBrand,
+    // setProductBrand,
+    // productName,
+    // setProductName,
+    // productQuantity,
+    // setProductQuantity,
+    // productImage,
+    // setProductImage,
+    // productCategories,
+    // setProductCategories,
     isProductExist,
     setIsProductExist,
     selectedItem,

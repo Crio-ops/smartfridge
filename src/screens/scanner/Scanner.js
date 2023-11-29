@@ -13,38 +13,17 @@ export default function Scanner() {
     scanned,
     setScanned,
     type,
-    setType,
     permission,
     requestPermission,
     product,
-    setProduct,
-    productBrand,
-    setProductBrand,
-    productName,
-    setProductName,
-    productQuantity,
-    setProductQuantity,
-    productImage,
-    setProductImage,
-    productCategories,
-    setProductCategories,
     isProductExist,
-    setIsProductExist,
-    selectedItem,
-    setSelectedItem,
     isModalVisible,
     setModalVisible,
-    toggleModal,
     handleBarCodeScanned,
-    getProduct,
     saveProductInKitchen,
   } = useScannerController();
 
   if (!permission) {
-    return <View />;
-  }
-
-  if (!permission.granted) {
     return (
       <View style={styles.container}>
         <GradientBackground />
@@ -73,7 +52,7 @@ export default function Scanner() {
         </View>
       </View>
 
-{/*  This component displays the scanned product.  */}
+      {/*  This component displays the scanned product.  */}
       <View style={styles.bottomContainer}>
         <Modal
           isVisible={isModalVisible}
@@ -83,20 +62,21 @@ export default function Scanner() {
           coverScreen
           backdropOpacity={0.0}
           swipeDirection="down"
-          style={{ justifyContent: "flex-end", margin: 0 }}
+          style={{ justifyContent: "flex-end", margin: 5 }}
         >
           {isProductExist && (
             <View style={styles.productBox}>
               <ScannedProduct
-                productImage={productImage}
-                productBrand={productBrand}
-                productName={productName}
-                productCategories={productCategories}
-                productQuantity={productQuantity}
+                image={product.image}
+                brand={product.brand}
+                name={product.name}
+                categories={product.categories}
+                quantity={product.quantity}
+                unit={product.unit}
               ></ScannedProduct>
 
               <RegularButtonComponent
-                onPress={ ()=> saveProductInKitchen()}
+                onPress={() => saveProductInKitchen(product)}
                 title="Ajouter au frigo"
                 style={styles.button}
               />

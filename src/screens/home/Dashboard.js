@@ -1,23 +1,24 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
-import AuthProvider, { useAuth } from "../../components/context/UserAuth.js";
+import { useAuth } from "../../components/context/UserAuth.js";
 import { Menu, MenuItem, MenuDivider } from "react-native-material-menu";
 import GradientBackground from "../../styles/components/GradientBackground.js";
 import Colors from "../../styles/colors/colors.js";
 import PlusButton from "../../components/elements/button/plusButton.js";
+
 export default function Dashboard({ navigation }) {
   const [visible, setVisible] = useState(false);
-  const { user, getToken , setUser, token, setToken, login, logout } = useAuth();
+  const { user, setKitchen } = useAuth();
   const hideMenu = () => setVisible(false);
   const showMenu = () => setVisible(true);
   const [noKitchenYet, setNoKitchenYet] = useState(false);
   const [kitchenName, setKitchenName] = useState();
 
   const fetchKitchenData = async (user) => {
-
     const jsonRequest = JSON.stringify({ user_id: user.id });
 
-    const LOCAL_URL = "http://192.168.1.56:3000/api/product/fetch_user_kitchen_data";
+    const LOCAL_URL =
+      "http://192.168.1.56:3000/api/product/fetch_user_kitchen_data";
 
     try {
       const response = await fetch(LOCAL_URL, {
@@ -33,34 +34,33 @@ export default function Dashboard({ navigation }) {
         const json = await response.json();
 
         if (json.request.kitchen.kitchen_name === "") {
-          console.log(json);
           setNoKitchenYet(true);
-          console.log(kitchenState);
         } else {
-          console.log(json);
+          console.log(json.request.kitchen);
+          setKitchen(json.request.kitchen);
           setKitchenName(json.request.kitchen.kitchen_name);
           setNoKitchenYet(false);
         }
       } else {
         // Handle other response statuses here if needed
-        console.error('Unexpected response status:', response.status);
+        console.error("Unexpected response status:", response.status);
       }
     } catch (error) {
-      console.error('Error during fetch:', error);
+      console.error("Error during fetch:", error);
     }
   };
 
   useEffect(() => {
     fetchKitchenData(user);
-  }, [user]); 
+  }, [user]);
 
   return (
     <View style={styles.container}>
       <GradientBackground />
       <View style={styles.topContainer}>
-
-      <Text>user : {user.mail_address}</Text>
-    {!noKitchenYet && <Text>{kitchenName}</Text>}
+        <Text>user : {user.mail_address}</Text>
+        {noKitchenYet && <Text>Pas encore de cuisine</Text>}
+        {!noKitchenYet && <Text>{kitchenName}</Text>}
       </View>
       <View style={styles.bottomContainer}>
         <Menu
@@ -90,9 +90,7 @@ export default function Dashboard({ navigation }) {
         </Menu>
       </View>
       <View style={styles.button}>
-      <PlusButton 
-      onPress={showMenu}
-      />
+        <PlusButton onPress={showMenu} />
       </View>
     </View>
   );
@@ -108,7 +106,7 @@ const styles = StyleSheet.create({
   },
   bottomContainer: {
     flex: 1,
-    alignSelf:"flex-end",
+    alignSelf: "flex-end",
     marginRight: "19%",
     marginBottom: "3%",
   },
@@ -120,17 +118,17 @@ const styles = StyleSheet.create({
   menuContainer: {
     backgroundColor: Colors.primary,
     borderRadius: 20,
-    borderWidth:2,
+    borderWidth: 2,
   },
   menuItemText: {
     color: Colors.background,
     fontSize: 16,
     fontWeight: "800",
   },
-  button:{
+  button: {
     marginRight: "5%",
     marginBottom: "5%",
-    alignSelf:'flex-end',
-    zIndex:1,
-  }
+    alignSelf: "flex-end",
+    zIndex: 1,
+  },
 });

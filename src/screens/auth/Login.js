@@ -5,6 +5,7 @@ import Colors from "../../styles/colors/colors.js";
 import RegularButtonComponent from "../../components/elements/button/regularButtonComponent.js";
 import GradientBackground from "../../styles/components/GradientBackground.js";
 import WarningMessageComponent from "../../components/elements/message/warningMessageComponent.js";
+
 // //localization
 // import * as Localization from 'expo-localization';
 // import i18n from 'i18n-js';
@@ -21,6 +22,8 @@ export default function Login({ navigation }) {
   const [loginError, setLoginError] = useState(false);
   const [serverError, setServerError] = useState(false);
   const { user, setUser, token, setToken, login, logout } = useAuth();
+
+
 
   function getLogin(username, password) {
     let person = {

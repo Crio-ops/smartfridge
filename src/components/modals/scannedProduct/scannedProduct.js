@@ -6,11 +6,12 @@ import useScannedProductController from "./scannedProductController.js";
 import RegularButtonComponent from "../../../components/elements/button/regularButtonComponent.js";
 
 const ScannedProduct = ({
-  productBrand,
-  productImage,
-  productName,
-  productCategories,
-  productQuantity,
+  brand,
+  image,
+  name,
+  categories,
+  quantity,
+  unit,
 }) => {
   const { isSlicedProduct, setIsSlicedProduct } = useScannedProductController();
   return (
@@ -20,19 +21,21 @@ const ScannedProduct = ({
           <Image
             style={styles.tinyLogo}
             source={
-              productImage
-                ? { uri: productImage }
+              image
+                ? { uri: image }
                 : require("../../../../assets/notFound.png")
             }
           />
         </View>
         <View style={styles.textContainer}>
-          <Text style={styles.text}>{productName}</Text>
+          <Text style={styles.text}>{name}</Text>
           {/* <Text style={styles.text}>Marque:</Text> */}
-          <Text style={styles.text}>{productBrand}</Text>
+          <Text style={styles.text}>{brand}</Text>
           {/* <Text style={styles.text}>Quantité:</Text> */}
-          <Text style={[styles.text,{fontStyle:"italic" }]}>{productQuantity}</Text>
-          <Text style={styles.text}>Produit incomplet ?</Text>
+          <View style={styles.quantityContainer}>
+            <Text style={[styles.text, { fontStyle: "italic" }]}>{quantity}</Text>
+            <Text style={[styles.text, { fontStyle: "italic" }]}>{unit}</Text>
+          </View>
           <RegularButtonComponent style={styles.text} title='Produit incomplet ?'/>
           
 
@@ -58,6 +61,9 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 5,
+  },
+  quantityContainer: {
+    flexDirection: "row",
   },
   text: {
     fontSize: 18,
