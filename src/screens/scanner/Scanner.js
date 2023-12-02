@@ -104,8 +104,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContainer: {
-    // flex: 1,
-    backgroundColor: "transparent", // Pour éviter le fond blanc de ScrollView
+    backgroundColor: "transparent",
   },
   bottomContainer: {
     flex: 2,
@@ -146,7 +145,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.primary,
   },
   productButtonBox: {
-    // paddingVertical: 15,
     height: 5,
     width: 10,
     borderRadius: 5,

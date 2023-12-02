@@ -8,7 +8,7 @@ import PlusButton from "../../components/elements/button/plusButton.js";
 
 export default function Dashboard({ navigation }) {
   const [visible, setVisible] = useState(false);
-  const { user, setKitchen } = useAuth();
+  const { user, setKitchen, kitchen } = useAuth();
   const hideMenu = () => setVisible(false);
   const showMenu = () => setVisible(true);
   const [noKitchenYet, setNoKitchenYet] = useState(false);
@@ -35,6 +35,7 @@ export default function Dashboard({ navigation }) {
 
         if (json.request.kitchen.kitchen_name === "") {
           setNoKitchenYet(true);
+          setKitchen(json.request.kitchen);
         } else {
           console.log(json.request.kitchen);
           setKitchen(json.request.kitchen);
@@ -59,6 +60,7 @@ export default function Dashboard({ navigation }) {
       <GradientBackground />
       <View style={styles.topContainer}>
         <Text>user : {user.mail_address}</Text>
+        {/* <Text>user : {kitchen.kitchen_id}</Text> */}
         {noKitchenYet && <Text>Pas encore de cuisine</Text>}
         {!noKitchenYet && <Text>{kitchenName}</Text>}
       </View>
