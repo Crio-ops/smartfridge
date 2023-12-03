@@ -1,15 +1,15 @@
 class Recette {
-    constructor(nom, ingrédients, instructions) {
+    constructor(nom, ingredients, instructions) {
       this.nom = nom;
-      this.ingrédients = ingrédients;
+      this.ingredients = ingredients;
       this.instructions = instructions;
     }
   
     afficherDetails() {
       console.log(`Nom de la recette: ${this.nom}`);
       console.log('Ingrédients:');
-      this.ingrédients.forEach((ingrédient, index) => {
-        console.log(`  ${index + 1}. ${ingrédient}`);
+      this.ingrédients.forEach((ingredients, index) => {
+        console.log(`  ${index + 1}. ${ingredients}`);
       });
       console.log('Instructions:');
       this.instructions.forEach((instruction, index) => {

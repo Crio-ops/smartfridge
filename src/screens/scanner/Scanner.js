@@ -95,6 +95,7 @@ export default function Scanner() {
           />
         </View>
       </View>
+    
     </View>
   );
 }
