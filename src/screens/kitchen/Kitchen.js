@@ -15,7 +15,7 @@ import { useAuth } from "../../components/context/UserAuth.js";
 import fetchKitchenData from "../../services/fetchKitchenData.js";
 export default function Kitchen({ navigation }) {
   const [refreshing, setRefreshing] = useState(false);
-  const { kitchen, user } = useAuth();
+  const { kitchen, user, token } = useAuth();
 
   const [fridgeFoodObj, setFridgeFoodObj] = useState(kitchen.kitchenData);
 
@@ -25,7 +25,7 @@ export default function Kitchen({ navigation }) {
 
   const refreshKitchenData = async () => {
     try {
-      const result = await fetchKitchenData(user);
+      const result = await fetchKitchenData(user, token);
       setFridgeFoodObj(result);
     } catch (error) {
       console.error("Error refreshing kitchen data:", error);

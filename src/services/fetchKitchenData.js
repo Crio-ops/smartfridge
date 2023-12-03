@@ -1,6 +1,6 @@
 import sendRequest from "./sendRequest.js";
 
-const fetchKitchenData = async (user) => {
+const fetchKitchenData = async (user, token) => {
   const jsonRequest = JSON.stringify({ user_id: user.id });
 
   const LOCAL_URL =
@@ -11,6 +11,7 @@ const fetchKitchenData = async (user) => {
       LOCAL_URL,
       "POST",
       {
+        Authorization: token,
         Accept: "application/json",
         "Content-Type": "application/json",
       },
