@@ -1,7 +1,7 @@
 import { Camera, CameraType } from "expo-camera";
 import { useState, useEffect } from "react";
 import { useAuth } from "../../components/context/UserAuth.js";
-import Aliment from "../../models/aliment.js";
+import Product from "../../models/Product.js";
 
 const useScannerController = () => {
   const { kitchen, token, logout } = useAuth();
@@ -28,11 +28,11 @@ const useScannerController = () => {
   }
 
   const buildProduct = (json) => {
-    const { brand, name, quantityAndUnit, image, keywords } = json.item[0];
-    const alimentFromData = new Aliment(brand, name, quantityAndUnit,image, keywords, unit="", quantity="");
-    alimentFromData.extractUnitFromQuantity();
-    alimentFromData.afficherInfos();
-    setProduct(alimentFromData);
+    
+    const {brand, name, quantity_unit, quantity, image, keywords} = json.item[0];
+    const product = new Product(brand, name, quantity_unit, quantity, image, keywords); 
+    product.afficherInfos();
+    setProduct(product);
     setIsProductExist(true);
     displayProductModal()
   };
@@ -52,7 +52,6 @@ const useScannerController = () => {
     };
 
     let jsonRequest = JSON.stringify(product);
-    console.log(product);
     const LOCAL_URL = "http://192.168.1.56:3000/api/product/scanner";
     try {
       const response = await fetch(LOCAL_URL, {
@@ -84,9 +83,9 @@ const useScannerController = () => {
       kitchen_id: kitchen.id,
       brand: data.brand,
       name: data.name,
-      image_link: data.image,
-      // quantity: productQuantity,
-      // productCategories:productCategories,
+      image: data.image,
+      quantity: data.quantity,
+      quantity_unit:data.quantity_unit,
       keywords: data.keywords,
     };
     let jsonRequest = JSON.stringify(product);

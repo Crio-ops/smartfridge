@@ -7,6 +7,7 @@ import RegularButtonComponent from "../../components/elements/button/regularButt
 import Modal from "react-native-modal";
 import useScannerController from "./ScannerController";
 import ScannedProduct from "../../components/modals/scannedProduct/scannedProduct.js";
+import globalStyleSheet from "../../styles/components/globalStyleSheet.js";
 
 export default function Scanner() {
   const {
@@ -25,7 +26,7 @@ export default function Scanner() {
 
   if (!permission) {
     return (
-      <View style={styles.container}>
+      <View style={globalStyleSheet.container}>
         <GradientBackground />
         <Text style={{ textAlign: "center" }}>
           We need your permission to show the camera
@@ -39,7 +40,7 @@ export default function Scanner() {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={globalStyleSheet.container}>
       <GradientBackground />
       <View style={styles.cameraBox}>
         <View style={styles.cameraWindowBox}>
@@ -72,7 +73,7 @@ export default function Scanner() {
                 name={product.name}
                 categories={product.categories}
                 quantity={product.quantity}
-                unit={product.unit}
+                unit={product.quantity_unit}
               ></ScannedProduct>
 
               <RegularButtonComponent
@@ -101,9 +102,9 @@ export default function Scanner() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
+  // container: {
+  //   flex: 1,
+  // },
   scrollContainer: {
     backgroundColor: "transparent",
   },

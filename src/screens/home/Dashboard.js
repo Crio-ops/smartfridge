@@ -5,7 +5,7 @@ import { Menu, MenuItem, MenuDivider } from "react-native-material-menu";
 import GradientBackground from "../../styles/components/GradientBackground.js";
 import Colors from "../../styles/colors/colors.js";
 import PlusButton from "../../components/elements/button/plusButton.js";
-// import RegularButtonComponent from "../../components/elements/button/regularButtonComponent.js";
+import RegularButtonComponent from "../../components/elements/button/regularButtonComponent.js";
 
 export default function Dashboard({ navigation }) {
   const [visible, setVisible] = useState(false);
@@ -114,7 +114,7 @@ export default function Dashboard({ navigation }) {
       />
        <RegularButtonComponent
           title={"valider"}
-          style={styles.button}
+          style={styles.buttonReg}
           onPress={() => updateKitchenName(kitchenName)}
         ></RegularButtonComponent>
         </View>
@@ -196,10 +196,10 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end",
     zIndex: 1,
   },
-  // button:{
-  //   fontSize:16,
-  //   marginVertical:5,
-  // },
+  buttonReg:{
+    fontSize:16,
+    marginVertical:5,
+  },
   input: {
     fontSize: 18,
     borderRadius: 4,
