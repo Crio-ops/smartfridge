@@ -32,7 +32,7 @@ export default function Login({ navigation }) {
     };
 
     let jsonRequest = JSON.stringify(person);
-    const LOCAL_URL = "http://192.168.1.56:3000/api/users/login";
+    const LOCAL_URL = "http://192.168.1.56:3001/routes/users/login";
     try {
       fetch(LOCAL_URL, {
         method: "POST",

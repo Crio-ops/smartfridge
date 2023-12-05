@@ -19,7 +19,7 @@ export default function Dashboard({ navigation }) {
     const jsonRequest = JSON.stringify({ user_id: user.id });
 
     const LOCAL_URL =
-      "http://192.168.1.56:3000/api/product/fetch_user_kitchen_data";
+      "http://192.168.1.56:3001/routes/product/fetch_user_kitchen_data";
 
     try {
       const response = await fetch(LOCAL_URL, {
@@ -62,7 +62,7 @@ export default function Dashboard({ navigation }) {
     const jsonRequest = JSON.stringify({ kitchen_name: kitchenName, admin_id: user.user_id  });
 
     const LOCAL_URL =
-      "http://192.168.1.56:3000/api/product/update_kitchen_name";
+      "http://192.168.1.56:3001/routes/product/update_kitchen_name";
 
     try {
       const response = await fetch(LOCAL_URL, {

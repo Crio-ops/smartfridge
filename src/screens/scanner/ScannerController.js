@@ -29,8 +29,8 @@ const useScannerController = () => {
 
   const buildProduct = (json) => {
     
-    const {brand, name, quantity_unit, quantity, image, keywords} = json.item[0];
-    const product = new Product(brand, name, quantity_unit, quantity, image, keywords); 
+    const {brand, name, quantity_unit, quantity, image, keywords, categories} = json.item[0];
+    const product = new Product(brand, name, quantity_unit, quantity, image, keywords, categories); 
     product.afficherInfos();
     setProduct(product);
     setIsProductExist(true);
@@ -52,7 +52,7 @@ const useScannerController = () => {
     };
 
     let jsonRequest = JSON.stringify(product);
-    const LOCAL_URL = "http://192.168.1.56:3000/api/product/scanner";
+    const LOCAL_URL = "http://192.168.1.56:3001/routes/product/scanner";
     try {
       const response = await fetch(LOCAL_URL, {
         method: "POST",
@@ -87,10 +87,11 @@ const useScannerController = () => {
       quantity: data.quantity,
       quantity_unit:data.quantity_unit,
       keywords: data.keywords,
+      categories: data.categories,
     };
     let jsonRequest = JSON.stringify(product);
     console.log(product);
-    const LOCAL_URL = "http://192.168.1.56:3000/api/product/store_product";
+    const LOCAL_URL = "http://192.168.1.56:3001/routes/product/store_product";
 
     try {
       const response = await fetch(LOCAL_URL, {

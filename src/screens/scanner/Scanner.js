@@ -63,7 +63,7 @@ export default function Scanner() {
           coverScreen
           backdropOpacity={0.0}
           swipeDirection="down"
-          style={{ justifyContent: "flex-end", margin: 5 }}
+          style={{ justifyContent: "flex-end", margin: 0 }}
         >
           {isProductExist && (
             <View style={styles.productBox}>
@@ -75,19 +75,20 @@ export default function Scanner() {
                 quantity={product.quantity}
                 unit={product.quantity_unit}
               ></ScannedProduct>
-
-              <RegularButtonComponent
-                onPress={() => saveProductInKitchen(product)}
-                title="Ajouter au frigo"
-                style={styles.button}
-              />
-              <RegularButtonComponent
-                onPress={() => setScanned(false)}
-                title="Scanner"
-                style={styles.button}
-              />
+              <View style={styles.rowsContainer}>
+                <RegularButtonComponent
+                  onPress={() => saveProductInKitchen(product)}
+                  title="Ajouter au frigo"
+                  style={styles.button}
+                />
+                <RegularButtonComponent
+                  onPress={() => setScanned(false)}
+                  title="Scanner"
+                  style={styles.button}
+                />
+              </View>
             </View>
-          )}
+           )} 
         </Modal>
         <View style={styles.cameraButtonBox}>
           <RegularButtonComponent
@@ -96,7 +97,6 @@ export default function Scanner() {
           />
         </View>
       </View>
-    
     </View>
   );
 }
@@ -154,9 +154,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#D9D9D9",
   },
   button: {
-    marginHorizontal: 50,
+    marginHorizontal: 10,
     fontSize: 16,
     marginVertical: 5,
     alignItems: "center",
+  },
+  rowsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    borderBottomWidth: 0.5,
+    borderColor: Colors.darkBlue,
+    paddingBottom: 10,
+    paddingTop: 10,
   },
 });

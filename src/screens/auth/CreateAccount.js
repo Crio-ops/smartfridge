@@ -43,7 +43,7 @@ export default function CreateAccount() {
       };
 
       let jsonRequest = JSON.stringify(person);
-      const LOCAL_URL = "http://192.168.1.56:3000/api/users/create";
+      const LOCAL_URL = "http://192.168.1.56:3001/routes/users/create";
       console.log(jsonRequest);
       try {
         fetch(LOCAL_URL, {

@@ -4,7 +4,7 @@ const fetchKitchenData = async (user, token) => {
   const jsonRequest = JSON.stringify({ user_id: user.id });
 
   const LOCAL_URL =
-    "http://192.168.1.56:3000/api/product/fetch_user_kitchen_data";
+    "http://192.168.1.56:3001/routes/product/fetch_user_kitchen_data";
 
   try {
     const response = await sendRequest(
