@@ -14,6 +14,7 @@ import Colors from "../colors/colors.js";
         color : Colors.darkBlue,
         fontWeight:"800",
       },
+      
 })
 
 export default globalStyleSheet

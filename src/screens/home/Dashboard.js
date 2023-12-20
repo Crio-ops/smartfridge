@@ -1,11 +1,22 @@
-import { StyleSheet, Text,TextInput, View, Image, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../components/context/UserAuth.js";
 import { Menu, MenuItem, MenuDivider } from "react-native-material-menu";
+
 import GradientBackground from "../../styles/components/GradientBackground.js";
 import Colors from "../../styles/colors/colors.js";
-import PlusButton from "../../components/elements/button/plusButton.js";
+import IconButton from "../../components/elements/button/IconButton.js";
 import RegularButtonComponent from "../../components/elements/button/regularButtonComponent.js";
+import fetchUserKitchenData from "../../services/productServices/fetchUserKitchenData";
+import updateKitchenName from "../../services/productServices/updateKitchenName";
+
 
 export default function Dashboard({ navigation }) {
   const [visible, setVisible] = useState(false);
@@ -15,88 +26,37 @@ export default function Dashboard({ navigation }) {
   const [noKitchenNameYet, setNoKitchenNameYet] = useState(false);
   const [kitchenName, setKitchenName] = useState();
 
-  const fetchKitchenData = async (user) => {
-    const jsonRequest = JSON.stringify({ user_id: user.id });
-
-    const LOCAL_URL =
-      "http://192.168.1.56:3001/routes/product/fetch_user_kitchen_data";
-
-    try {
-      const response = await fetch(LOCAL_URL, {
-        method: "POST",
-        headers: {
-          Authorization: token,
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: jsonRequest,
-      });
-
-      if (response.status === 200) {
-        const json = await response.json();
-        // console.log(json);
-        if (json.request.kitchen.kitchen_name === "") {
-          setNoKitchenNameYet(true);
-          setKitchen(json.request.kitchen);
-          // console.log(kitchen);
-        } else {
-          console.log(json.request.kitchen);
-          setKitchen(json.request.kitchen);
-          setKitchenName(json.request.kitchen.kitchen_name);
-          setNoKitchenNameYet(false);
-        }
-      } else {
-        // Handle other response statuses here if needed
-        console.error("Unexpected response status:", response.status);
-      }
-    } catch (error) {
-      console.error("Error during fetch:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchKitchenData(user);
-  }, [user]);
-
-  const updateKitchenName= async (kitchenName) => {
-    const jsonRequest = JSON.stringify({ kitchen_name: kitchenName, admin_id: user.user_id  });
-
-    const LOCAL_URL =
-      "http://192.168.1.56:3001/routes/product/update_kitchen_name";
-
-    try {
-      const response = await fetch(LOCAL_URL, {
-        method: "POST",
-        headers: {
-          Authorization: token,
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: jsonRequest,
-      });
-
-      if (response.status === 200) {
-        const json = await response.json();
-        console.log(json);
-        if (json.request.kitchen.kitchen_name === "") {
-          setNoKitchenNameYet(true);
-          setKitchen(json.request.kitchen);
-          console.log(kitchen);
-        } else {
-          console.log(json.request.kitchen);
-          setKitchen(json.request.kitchen);
-          setKitchenName(json.request.kitchen.kitchen_name);
-          setNoKitchenNameYet(false);
-        }
-      } else {
-        // Handle other response statuses here if needed
-        console.error("Unexpected response status:", response.status);
-      }
-    } catch (error) {
-      console.error("Error during fetch:", error);
-    }
-  };
   
+  useEffect(() => {
+    const fetchData = async () => {
+      const kitchenData = await fetchUserKitchenData(user, token);
+      if (kitchenData) {
+        if (kitchenData.kitchen_name === "") {
+          setNoKitchenNameYet(true);
+          setKitchen(kitchenData);
+        } else {
+          setKitchen(kitchenData);
+          setKitchenName(kitchenData.kitchen_name);
+          setNoKitchenNameYet(false);
+        }
+      }
+    };
+
+    fetchData();
+  }, [user, token]);
+
+  const updateKitchenName = async (kitchenName) => {
+    const updatedKitchen = await updateKitchenName(kitchenName, user.user_id, token);
+
+    if (updatedKitchen) {
+      console.log(updatedKitchen);
+      setKitchen(updatedKitchen);
+      setKitchenName(updatedKitchen.kitchen_name);
+      setNoKitchenNameYet(false);
+    }
+  };
+
+
   if (noKitchenNameYet) {
     return (
       <View style={styles.container}>
@@ -104,19 +64,21 @@ export default function Dashboard({ navigation }) {
         <View style={styles.topContainer}>
           <Text>user : {user.mail_address}</Text>
           <Text>Bienvenue {user.username} ! </Text>
-          <Text>Avant toute chose, il faut nommer votre première cuisine !</Text>
+          <Text>
+            Avant toute chose, il faut nommer votre première cuisine !
+          </Text>
           <TextInput
-        style={styles.input}
-        selectionColor={Colors.white}
-        underlineColorAndroid="transparent"
-        autoCapitalize="none"
-        onChangeText={(newKitchenName) => setKitchenName(kitchenName)}
-      />
-       <RegularButtonComponent
-          title={"valider"}
-          style={styles.buttonReg}
-          onPress={() => updateKitchenName(kitchenName)}
-        ></RegularButtonComponent>
+            style={styles.input}
+            selectionColor={Colors.white}
+            underlineColorAndroid="transparent"
+            autoCapitalize="none"
+            onChangeText={(newKitchenName) => setKitchenName(kitchenName)}
+          />
+          <RegularButtonComponent
+            title={"valider"}
+            style={styles.buttonReg}
+            onPress={() => updateKitchenName(kitchenName)}
+          ></RegularButtonComponent>
         </View>
       </View>
     );
@@ -125,7 +87,7 @@ export default function Dashboard({ navigation }) {
     <View style={styles.container}>
       <GradientBackground />
       <View style={styles.topContainer}>
-        <Text>user : {user.mail_address}</Text>
+        <Text style={{fontSize:18, textAlign:'center', marginTop:30}}>Bonjour {user.username} ! </Text>
       </View>
       <View style={styles.bottomContainer}>
         <Menu
@@ -149,13 +111,22 @@ export default function Dashboard({ navigation }) {
           >
             <Text style={[styles.menuItemText]}>Scanner un produit</Text>
           </MenuItem>
-          <MenuItem style={styles.menuItem} onPress={hideMenu}>
+          <MenuItem
+            style={styles.menuItem}
+            onPress={() => {
+              setVisible(false);
+              navigation.push("ShowRecipe");
+            }}
+          >
             <Text style={[styles.menuItemText]}>Créer un produit</Text>
           </MenuItem>
         </Menu>
       </View>
       <View style={styles.button}>
-        <PlusButton onPress={showMenu} />
+        <IconButton
+          onPress={showMenu}
+          source={require("../../../assets/plus.png")}
+        />
       </View>
     </View>
   );
@@ -196,9 +167,9 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end",
     zIndex: 1,
   },
-  buttonReg:{
-    fontSize:16,
-    marginVertical:5,
+  buttonReg: {
+    fontSize: 16,
+    marginVertical: 5,
   },
   input: {
     fontSize: 18,

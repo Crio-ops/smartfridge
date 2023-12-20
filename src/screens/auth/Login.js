@@ -1,10 +1,11 @@
+import { API_URL } from '@env';
 import { View, Text, TextInput, StyleSheet, Image } from "react-native";
 import AuthProvider, { useAuth } from "../../components/context/UserAuth.js";
 import React, { useState } from "react";
 import Colors from "../../styles/colors/colors.js";
 import RegularButtonComponent from "../../components/elements/button/regularButtonComponent.js";
 import GradientBackground from "../../styles/components/GradientBackground.js";
-import WarningMessageComponent from "../../components/elements/message/warningMessageComponent.js";
+import SuccessMessageComponent from "../../components/elements/message/successMessageComponent.js";
 
 // //localization
 // import * as Localization from 'expo-localization';
@@ -16,7 +17,9 @@ import WarningMessageComponent from "../../components/elements/message/warningMe
 // i18n.locale = Localization.locale;
 // //
 
-export default function Login({ navigation }) {
+export default function Login({ navigation, route }) {
+  let success = false
+   success = route.params
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState(false);
@@ -32,9 +35,9 @@ export default function Login({ navigation }) {
     };
 
     let jsonRequest = JSON.stringify(person);
-    const LOCAL_URL = "http://192.168.1.56:3001/routes/users/login";
+
     try {
-      fetch(LOCAL_URL, {
+      fetch(API_URL+"/users/login", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -77,6 +80,11 @@ export default function Login({ navigation }) {
         source={require("../../../assets/hat.png")}
       />
       <Text style={styles.title}>S'identifier</Text>
+      {success && (
+        <SuccessMessageComponent
+          message={"Compte créé avec succès"}
+        ></SuccessMessageComponent>
+      )}
       <Text style={styles.label}>Nom de compte</Text>
       <TextInput
         style={styles.input}

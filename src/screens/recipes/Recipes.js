@@ -1,20 +1,45 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import { API_URL } from '@env';
 
-import { Menu, MenuItem, MenuDivider } from "react-native-material-menu";
+import React, { useState, useEffect } from "react";
+import { View, Text, StyleSheet, RefreshControl, TouchableOpacity  } from "react-native";
+import RecipeList from "../../components/RecipeList.js"; 
+import { fetchRecipes } from "../../services/recipesServices/fetchRecipes.js";
 import GradientBackground from "../../styles/components/GradientBackground.js";
+import IconButton from "../../components/elements/button/IconButton.js";
+import { Menu, MenuItem, MenuDivider } from "react-native-material-menu";
 import Colors from "../../styles/colors/colors.js";
-import PlusButton from "../../components/elements/button/plusButton.js";
-
-export default function Recipes({ navigation }) {
+const Recipes = ({ navigation }) => {
+  const [recipes, setRecipes] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
   const [visible, setVisible] = useState(false);
   const hideMenu = () => setVisible(false);
   const showMenu = () => setVisible(true);
 
+  const fetchData = async () => {
+    try {
+      const data = await fetchRecipes();
+      setRecipes(data);
+    } catch (error) {
+      console.error('Error setting recipes:', error);
+    } finally {
+      setRefreshing(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <View style={styles.container}>
       <GradientBackground />
-      <View style={styles.topContainer}></View>
+      <View style={styles.topContainer}>
+      <Text style={styles.header}>Liste de Recettes</Text>
+      <RecipeList recipes={recipes}
+      fetchRecipes={fetchRecipes}
+      navigation={navigation}
+      />
+      </View>
       <View style={styles.bottomContainer}>
         <Menu
           style={styles.menuContainer}
@@ -43,18 +68,26 @@ export default function Recipes({ navigation }) {
         </Menu>
       </View>
       <View style={styles.button}>
-      <PlusButton 
-      onPress={showMenu}
-      />
+        <IconButton
+          onPress={showMenu}
+          source={require("../../../assets/plus.png")}
+        />
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    textAlign: "center",
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  header: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 20,
   },
   topContainer: {
     flex: 8,
@@ -80,11 +113,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "800",
   },
-  button:{
+  button: {
     marginRight: "5%",
     marginBottom: "5%",
-    alignSelf:'flex-end',
-    zIndex:1,
-  }
+    alignSelf: "flex-end",
+    zIndex: 1,
+  },
 });
 
+export default Recipes;

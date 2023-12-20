@@ -15,6 +15,8 @@ import Dashboard from "./src/screens/home/Dashboard.js";
 import CreateAccount from "./src/screens/auth/CreateAccount.js";
 import Recipes from "./src/screens/recipes/Recipes.js";
 import CreateRecipes from "./src/screens/recipes/CreateRecipes.js";
+import ShowRecipe from "./src/screens/recipes/ShowRecipe.js"
+import CreateProduct from "./src/screens/product/createProduct.js";
 import Kitchen from "./src/screens/kitchen/Kitchen.js";
 import Login from "./src/screens/auth/Login.js";
 import Profile from "./src/screens/profile/Profile.js";
@@ -239,7 +241,36 @@ const Navigator = () => {
               headerTintColor: Colors.primary, // Couleur de l'icône de retour
             }}
           />
+           <Stack.Screen
+            name="CreateProduct"
+            component={CreateProduct}
+            options={{
+              headerShown: true,
+              headerStyle: {
+                backgroundColor: Colors.background,
+              },
+              headerTitleStyle: {
+                color: Colors.primary, // Couleur du titre de l'écran
+              },
+              headerTintColor: Colors.primary, // Couleur de l'icône de retour
+            }}
+          />
+              <Stack.Screen
+            name="ShowRecipe"
+            component={ShowRecipe}
+            options={{
+              headerShown: true,
+              headerStyle: {
+                backgroundColor: Colors.background,
+              },
+              headerTitleStyle: {
+                color: Colors.primary, // Couleur du titre de l'écran
+              },
+              headerTintColor: Colors.primary, // Couleur de l'icône de retour
+            }}
+          />
         </>
+        
       ) : (
         <>
           <Stack.Screen

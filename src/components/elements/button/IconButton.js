@@ -2,15 +2,15 @@ import React from 'react';
 import { TouchableOpacity, Image, StyleSheet } from 'react-native';
 import Colors from '../../../styles/colors/colors.js'
 
-const PlusButton = ({ onPress }) => {
+const IconButton = ({ onPress, source, style, imageStyle }) => {
   return (
     <TouchableOpacity
       onPress={onPress}
-      style={styles.addButton}
+      style={[styles.addButton, style]}
     >
       <Image
-        style={styles.addButtonImage}
-        source={require("../../../../assets/plus.png")}
+        style={[styles.addButtonImage, imageStyle]}
+        source={source}
       />
     </TouchableOpacity>
   );
@@ -32,4 +32,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PlusButton;
+export default IconButton;
