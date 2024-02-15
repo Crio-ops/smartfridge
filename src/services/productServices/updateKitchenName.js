@@ -7,7 +7,7 @@ const updateKitchenName = async (kitchenName, adminId, token) => {
   
   
     try {
-      const response = await fetch(API_URL+"/product/update_kitchen_name", {
+      const response = await fetch(API_URL + "/product/update_kitchen_name", {
         method: "POST",
         headers: {
           Authorization: token,

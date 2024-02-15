@@ -127,7 +127,7 @@ export default function Scanner({ navigation }) {
   const createCategory = async (data) => {
     try {
       const response = await fetch(
-        API_URL+"/product/insert_product_category",
+        API_URL + "/product/insert_product_category",
         {
           method: "POST",
           headers: {

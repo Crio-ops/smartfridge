@@ -62,8 +62,12 @@ const Recipes = ({ navigation }) => {
           >
             <Text style={[styles.menuItemText]}>Créer une recette</Text>
           </MenuItem>
-          <MenuItem style={styles.menuItem} onPress={hideMenu}>
-            <Text style={[styles.menuItemText]}> -- </Text>
+          <MenuItem     style={styles.menuItem}
+            onPress={() => {
+              setVisible(false);
+              navigation.push("PreparationListCreation");
+            }}>
+            <Text style={[styles.menuItemText]}> toDO </Text>
           </MenuItem>
         </Menu>
       </View>

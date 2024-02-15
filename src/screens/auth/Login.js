@@ -37,7 +37,7 @@ export default function Login({ navigation, route }) {
     let jsonRequest = JSON.stringify(person);
 
     try {
-      fetch(API_URL+"/users/login", {
+      fetch(API_URL +  "/users/login", {
         method: "POST",
         headers: {
           Accept: "application/json",

@@ -13,6 +13,7 @@ import RegularButtonComponent from "../../components/elements/button/regularButt
 import Colors from "../../styles/colors/colors.js";
 import createRecipe from "../../services/recipesServices/createRecipe.js";
 import RNPickerSelect from "react-native-picker-select";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import {
   fetchCategories,
   fetchAllCategories,
@@ -37,6 +38,8 @@ const CreateRecipes = () => {
   const [familiesAndCategories, setFamiliesAndCategories] = useState([]);
   const [selectedFamilyCategories, setSelectedFamilyCategories] = useState([]);
   const [mappedCategories, setMappedCategories] = useState([]);
+  const [showPicker, setShowPicker] = useState(false);
+  const [selectedPreparationTime, setSelectedPreparationTime] = useState(new Date());
 
   useEffect(() => {
     const fetchData = async () => {
@@ -117,11 +120,26 @@ const CreateRecipes = () => {
     setIngredients(updatedIngredients);
   };
 
+
+  
+    const showTimePicker = () => {
+      setShowPicker(true);
+    };
+  
+    const handleTimeChange = (event, selectedTime) => {
+      setShowPicker(false);
+  
+      if (selectedTime !== undefined) {
+        // Handle the selected time as needed
+        setSelectedPreparationTime(selectedTime);
+      }
+    };
+
   return (
     <View style={styles.container}>
       <GradientBackground />
       <ScrollView>
-        <View style={{ alignItems: "center" }}>
+        <View style={{ alignItems: "baseline" }}>
           <Text style={styles.textStyle}>Titre de la recette</Text>
           <TextInput
             style={styles.input}
@@ -137,27 +155,33 @@ const CreateRecipes = () => {
           />
 
           <Text style={styles.textStyle}>Temps de préparation</Text>
-          <TextInput
+          <RegularButtonComponent onPress={showTimePicker}>
+        <Text>Sélectionnez le temps de préparation</Text>
+      </RegularButtonComponent>
+
+      {showPicker && (
+        <DateTimePicker
+          value={selectedPreparationTime}
+          mode="time"
+          display="spinner"
+          onChange={handleTimeChange}
+        />
+      )}
+          {/* <TextInput
             style={styles.input}
             value={prepTime}
             onChangeText={setPrepTime}
             keyboardType="numeric"
-          />
+          /> */}
 
           <Text style={styles.textStyle}>Temps de cuisson</Text>
+
           <TextInput
             style={styles.input}
             value={cookTime}
             onChangeText={setCookTime}
             keyboardType="numeric"
           />
-
-          {/* <Text>Total Time:</Text>
-      <TextInput
-        value={totalTime}
-        onChangeText={setTotalTime}
-        keyboardType="numeric"
-      /> */}
 
           <Text style={styles.textStyle}>Nombre de personnes</Text>
           <TextInput
@@ -217,14 +241,16 @@ const CreateRecipes = () => {
             onChangeText={setIngredientQuantity}
           />
 
-          <Text style={styles.textStyle}>Instructions:</Text>
+          {/* <Text style={styles.textStyle}>Instructions:</Text>
           <TextInput
             style={styles.multilineInput}
             value={instructions}
             multiline={true}
             numberOfLines={4}
             onChangeText={setInstructions}
-          />
+          /> */}
+
+          
 
           <RegularButtonComponent
             title="Créer la recette"
@@ -259,12 +285,13 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   textStyle: {
-    color: Colors.darkBlue,
-    fontSize: 18,
+    color: Colors.blue,
+    fontSize: 20,
+    
     marginLeft: 15,
   },
   labelStyle: {
-    color: Colors.darkBlue,
+    color: Colors.blue,
     fontSize: 18,
     fontWeight: "bold",
   },
@@ -279,7 +306,7 @@ const styles = StyleSheet.create({
     color: Colors.white,
     elevation: 10,
     textAlign: "center",
-    marginBottom:25,
+    marginBottom: 25,
   },
   multilineInput: {
     fontSize: 18,
@@ -289,7 +316,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.blue,
     color: Colors.white,
     elevation: 10,
-    marginBottom:25,
+    marginBottom: 25,
   },
 });
 

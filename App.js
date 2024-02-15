@@ -13,8 +13,9 @@ import AuthProvider, { useAuth } from "./src/components/context/UserAuth.js";
 import Scanner from "./src/screens/scanner/Scanner.js";
 import Dashboard from "./src/screens/home/Dashboard.js";
 import CreateAccount from "./src/screens/auth/CreateAccount.js";
-import Recipes from "./src/screens/recipes/Recipes.js";
 import CreateRecipes from "./src/screens/recipes/CreateRecipes.js";
+import PreparationListCreation from "./src/screens/recipes/PreparationListCreation.js";
+import Recipes from "./src/screens/recipes/Recipes.js";
 import ShowRecipe from "./src/screens/recipes/ShowRecipe.js"
 import CreateProduct from "./src/screens/product/createProduct.js";
 import Kitchen from "./src/screens/kitchen/Kitchen.js";
@@ -230,6 +231,20 @@ const Navigator = () => {
             <Stack.Screen
             name="CreateRecipes"
             component={CreateRecipes}
+            options={{
+              headerShown: true,
+              headerStyle: {
+                backgroundColor: Colors.background,
+              },
+              headerTitleStyle: {
+                color: Colors.primary, // Couleur du titre de l'écran
+              },
+              headerTintColor: Colors.primary, // Couleur de l'icône de retour
+            }}
+          />
+                <Stack.Screen
+            name="PreparationListCreation"
+            component={PreparationListCreation}
             options={{
               headerShown: true,
               headerStyle: {

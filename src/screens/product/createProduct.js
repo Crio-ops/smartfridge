@@ -53,7 +53,7 @@ const CreateProduct = ({ onProductSubmit, route, navigation }) => {
 
     const fetchCategories = async () => {
       try {
-        const response = await fetch(API_URL+"/product/select_products_categories",
+        const response = await fetch( API_URL + "/product/select_products_categories",
           {
             method: "GET",
             headers: {

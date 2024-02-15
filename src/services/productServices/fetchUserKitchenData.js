@@ -4,7 +4,7 @@ const fetchUserKitchenData = async (user, token) => {
     const jsonRequest = JSON.stringify({ user_id: user.id });
 
     try {
-      const response = await fetch(API_URL+"/product/fetch_user_kitchen_data", {
+      const response = await fetch(API_URL + "/product/fetch_user_kitchen_data", {
         method: "POST",
         headers: {
           Authorization: token,

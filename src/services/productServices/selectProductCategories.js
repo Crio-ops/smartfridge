@@ -34,7 +34,7 @@ const fetchCategories = async () => {
 
         try {
           const response = await fetch(
-            API_URL+"/product/select_products_categories",
+            API_URL + "/product/select_products_categories",
             {
               method: "GET",
               headers: {

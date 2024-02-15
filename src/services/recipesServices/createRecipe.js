@@ -4,7 +4,7 @@ const handleCreateRecipe = async (data) => {
 
     try {
       const response = await fetch(
-        API_URL+"/recipes/create_recipe",
+        API_URL + "/recipes/create_recipe",
         {
           method: "POST",
           headers: {

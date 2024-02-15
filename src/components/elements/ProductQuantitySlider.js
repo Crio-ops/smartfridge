@@ -1,3 +1,4 @@
+import { API_URL } from "@env";
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import Slider from "@react-native-community/slider";
@@ -20,7 +21,7 @@ const ProductQuantitySlider = ({ quantity, quantity_unit, product_id,onClose, on
 console.log(quantityCounter)
     try {
       const response = await fetch(
-        "http://192.168.1.177:3001/routes/product/update_product_quantity",
+        API_URL + "/product/update_product_quantity",
         {
           method: "POST",
           headers: {
@@ -47,7 +48,7 @@ console.log(quantityCounter)
 
   const deleteProduct = async () => {
     try {
-      const response = await fetch(`http://192.168.1.177:3001/routes/product/delete_product/${product_id}`, {
+      const response = await fetch( API_URL + `/product/delete_product/${product_id}`, {
         method: "DELETE",
       });
 
